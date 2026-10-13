@@ -1,0 +1,29 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Music Generator
+GenericName=AI Music Studio
+Comment=Lokaler KI-Musikgenerator mit C++ GGUF Engine, AMD ROCm (RX 9070 XT) & Vulkan
+Exec=/usr/bin/music-generator-launcher
+Icon=music-generator
+Terminal=false
+Categories=AudioVideo;Audio;AudioVideoEditing;
+Keywords=music;audio;ai;generator;suno;rocm;vulkan;
+StartupNotify=true
+Actions=Start;Stop;Status;WebUI;
+
+[Desktop Action Start]
+Name=Server starten
+Exec=/usr/bin/music-generator --start
+
+[Desktop Action Stop]
+Name=Server stoppen
+Exec=/usr/bin/music-generator --stop
+
+[Desktop Action Status]
+Name=Server-Status prüfen
+Exec=/usr/bin/music-generator --status
+
+[Desktop Action WebUI]
+Name=Web-Oberfläche öffnen
+Exec=xdg-open http://localhost:8765

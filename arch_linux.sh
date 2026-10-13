@@ -13,6 +13,9 @@
 #   --install-only         Nur installieren/bauen/Modelle laden, nicht starten
 #   --backend [auto|rocm|hip|vulkan|cuda|cpu]   Grafik-/Rechen-Backend wählen (Standard: auto)
 #                          (rocm/hip empfohlen für AMD Radeon wie RX 9070 XT)
+#   --gui, --launcher      Startet die dunkle rahmenlose Python-Desktop-GUI
+#   --package              Erstellt ein Arch Linux Paket (.pkg.tar.zst) mit makepkg
+#   --uninstall            Anwendung und Build-Dateien entfernen (Pakete bleiben erhalten)
 #   --lm [0.6B|1.7B|4B]    Sprachmodellgröße festlegen
 #   --xl                   Zusätzlich das XL-Klangmodell herunterladen (5,3 GB)
 #   --no-browser           Browser beim Start nicht automatisch öffnen
@@ -25,7 +28,7 @@ source "$SOURCE_DIR/scripts/common.sh"
 cd "$ROOT" || exit 1
 
 AUTO=0
-ACTION="run"       # run, install_only, start, stop, status
+ACTION="run"       # run, install_only, start, stop, status, uninstall, gui, package
 LM_SIZE=""
 XL=0
 REBUILD=0
@@ -40,6 +43,9 @@ while [ $# -gt 0 ]; do
     --start) ACTION="start" ;;
     --stop) ACTION="stop" ;;
     --status) ACTION="status" ;;
+    --gui|--launcher) ACTION="gui" ;;
+    --package) ACTION="package" ;;
+    --uninstall) ACTION="uninstall" ;;
     --install-only|--no-start) ACTION="install_only" ;;
     --rebuild) REBUILD=1 ;;
     --backend) BACKEND="$2"; shift ;;
@@ -55,9 +61,12 @@ while [ $# -gt 0 ]; do
       echo "Options:"
       echo "  --yes, -y              Automatic installation without questions"
       echo "  --yay                  Install missing packages with yay (AUR helper)"
+      echo "  --gui, --launcher      Start the frameless dark Python GUI launcher"
       echo "  --start                Only start the servers and open the browser"
       echo "  --stop                 Stop running servers"
       echo "  --status               Show server status"
+      echo "  --package              Build an Arch Linux package (.pkg.tar.zst)"
+      echo "  --uninstall            Uninstall application files (keeps system packages)"
       echo "  --install-only         Only install and set up, do not start"
       echo "  --rebuild              Recompile acestep.cpp"
       echo "  --backend [auto|rocm|hip|vulkan|cuda|cpu]   Choose backend (default: auto)"
@@ -161,6 +170,81 @@ zeige_status() {
       echo "  ✗ Language model server not running (port $LM_PORT free)"
     fi
   fi
+}
+
+# --- Deinstallation (nur Anwendung & Build-Dateien, keine Systempakete) -------
+deinstalliere() {
+  echo "═══════════════════════════════════════════════════════════"
+  echo "  MUSIC GENERATOR · Deinstallation"
+  echo "  Autor: ZeroDot1"
+  echo "═══════════════════════════════════════════════════════════"
+  echo ""
+  echo "  Hinweis: Diese Funktion entfernt nur die Anwendung, kompilierte"
+  echo "  Dateien, Modelle und temporäre Daten vom System."
+  echo "  In Arch Linux installierte Systempakete (z. B. pacman/yay) bleiben"
+  echo "  vollständig unberührt!"
+  echo ""
+
+  if ! ja "  Möchtest du Music Generator jetzt deinstallieren?"; then
+    echo "  Abgebrochen."
+    exit 0
+  fi
+
+  # 1. Laufende Server stoppen
+  stoppe_server
+
+  # 2. Frage nach generierten Songs
+  local REMOVE_SONGS=0
+  if [ -d "$DATA/songs" ] && [ "$(ls -A "$DATA/songs" 2>/dev/null)" ]; then
+    echo ""
+    echo "  In 'data/songs' befinden sich deine generierten Musikstücke."
+    if ja "  Sollen deine erstellten Songs BEHALTEN werden?"; then
+      REMOVE_SONGS=0
+      echo "  → Songs bleiben erhalten."
+    else
+      REMOVE_SONGS=1
+      echo "  → Songs werden ebenfalls gelöscht."
+    fi
+  fi
+
+  schritt "Entferne Anwendungsdateien"
+
+  # Engine & kompilierte Server-Dateien
+  if [ -d "$ROOT/engine" ]; then
+    echo "  - Entferne engine/ (acestep.cpp & GGUF-Modelle)..."
+    rm -rf "$ROOT/engine"
+  fi
+
+  # Python Virtualenv (.venv)
+  if [ -d "$ROOT/.venv" ]; then
+    echo "  - Entferne .venv/ (lokale Python-Umgebung)..."
+    rm -rf "$ROOT/.venv"
+  fi
+
+  # Data Verzeichnis
+  if [ -d "$DATA" ]; then
+    if [ "$REMOVE_SONGS" = 0 ] && [ -d "$DATA/songs" ]; then
+      echo "  - Bereinige data/ (behalte data/songs)..."
+      find "$DATA" -mindepth 1 -maxdepth 1 ! -name 'songs' -exec rm -rf {} +
+    else
+      echo "  - Entferne data/..."
+      rm -rf "$DATA"
+    fi
+  fi
+
+  # Desktop-Verknüpfungen (falls vorhanden)
+  local DESKTOP_FILE="$HOME/.local/share/applications/music-generator.desktop"
+  if [ -f "$DESKTOP_FILE" ]; then
+    echo "  - Entferne Desktop-Starter ($DESKTOP_FILE)..."
+    rm -f "$DESKTOP_FILE"
+  fi
+
+  echo ""
+  echo "═══════════════════════════════════════════════════════════"
+  echo "  ✓ Deinstallation abgeschlossen!"
+  echo "  Die Anwendungsdateien wurden erfolgreich bereinigt."
+  echo "  Systempakete unter Arch Linux wurden nicht angetastet."
+  echo "═══════════════════════════════════════════════════════════"
 }
 
 # --- Server-Start -------------------------------------------------------------
@@ -711,6 +795,21 @@ case "$ACTION" in
     ;;
   status)
     zeige_status
+    ;;
+  gui)
+    if [ ! -f "$ROOT/launcher.py" ]; then
+      abbruch "launcher.py nicht gefunden in $ROOT."
+    fi
+    exec python3 "$ROOT/launcher.py" "$@"
+    ;;
+  package)
+    if [ ! -x "$ROOT/packaging/arch/build_package.sh" ]; then
+      abbruch "build_package.sh nicht gefunden in $ROOT/packaging/arch."
+    fi
+    exec "$ROOT/packaging/arch/build_package.sh"
+    ;;
+  uninstall)
+    deinstalliere
     ;;
   install_only)
     installiere

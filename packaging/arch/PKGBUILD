@@ -1,0 +1,61 @@
+# Maintainer: ZeroDot1 <zerodot1@bk.ru>
+pkgname=music-generator-git
+pkgver=1.0.0.r1.g2c60e90
+pkgrel=1
+pkgdesc="Lokaler KI-Musikgenerator mit C++ GGUF Engine, AMD ROCm (RX 9070 XT)/Vulkan/CUDA & rahmenlosem Python Dark-Launcher"
+arch=('x86_64')
+url="https://github.com/ZeroDot1/music-generator"
+license=('MIT')
+depends=(
+  'python'
+  'tk'
+  'ffmpeg'
+  'curl'
+  'iproute2'
+  'pciutils'
+)
+makedepends=(
+  'git'
+  'cmake'
+  'ninja'
+)
+optdepends=(
+  'rocm-hip-sdk: AMD ROCm/HIP Beschleunigung für Radeon Grafikkarten (z.B. RX 9070 XT)'
+  'vulkan-radeon: Vulkan Treiber für AMD Radeon'
+  'vulkan-intel: Vulkan Treiber für Intel Grafikkarten'
+  'nvidia-utils: NVIDIA CUDA/Vulkan Unterstützung'
+  'yay: Automatisierte AUR-Paketverwaltung'
+)
+provides=('music-generator' 'music-generator-launcher')
+conflicts=('music-generator')
+source=("music-generator.tar.gz")
+sha256sums=('SKIP')
+
+package() {
+  # Zielverzeichnis im Paketbaum
+  local APP_DIR="$pkgdir/opt/music-generator"
+  install -d "$APP_DIR"
+
+  # Anwendungsdateien kopieren
+  cp -ra "$srcdir"/{app,assets,scripts,static,arch_linux.sh,Install.sh,Uninstall.sh,launcher.py} "$APP_DIR/"
+  cp -a "$srcdir"/{"Music Generator ON.sh","Music Generator OFF.sh",README.md,LICENSE} "$APP_DIR/" 2>/dev/null || true
+
+  # Desktop-Datei und Icons installieren
+  install -Dm644 "$srcdir/music-generator.desktop" "$pkgdir/usr/share/applications/music-generator.desktop"
+  install -Dm644 "$srcdir/assets/music-generator.png" "$pkgdir/usr/share/icons/hicolor/256x256/apps/music-generator.png"
+  install -Dm644 "$srcdir/assets/music-generator.svg" "$pkgdir/usr/share/icons/hicolor/scalable/apps/music-generator.svg"
+
+  # Symlinks nach /usr/bin für CLI und GUI Launcher
+  install -d "$pkgdir/usr/bin"
+  cat > "$pkgdir/usr/bin/music-generator" <<'EOF'
+#!/bin/bash
+exec /opt/music-generator/arch_linux.sh "$@"
+EOF
+  chmod +x "$pkgdir/usr/bin/music-generator"
+
+  cat > "$pkgdir/usr/bin/music-generator-launcher" <<'EOF'
+#!/bin/bash
+exec python3 /opt/music-generator/launcher.py "$@"
+EOF
+  chmod +x "$pkgdir/usr/bin/music-generator-launcher"
+}

@@ -74,8 +74,11 @@ Das Skript:
 
 **Benutzen unter Linux:**
 - Starten: `./arch_linux.sh` (oder `./Music\ Generator\ ON.sh`)
+- **Grafischer Launcher (Dunkel & rahmenlos):** `./arch_linux.sh --gui` (oder `python3 launcher.py`)
 - Beenden: `./arch_linux.sh --stop` (oder `./Music\ Generator\ OFF.sh` sowie über den Knopf „Server stoppen“ in der Web-Oberfläche)
 - Status: `./arch_linux.sh --status`
+- Deinstallieren: `./arch_linux.sh --uninstall` (oder `./Uninstall.sh` – entfernt nur App- und Build-Dateien, Systempakete bleiben erhalten)
+- **Arch Linux Paket bauen:** `./arch_linux.sh --package` (erstellt `.pkg.tar.zst` via makepkg zur Installation mit `pacman -U`)
 - Optionen: `--yes` (keine Rückfragen), `--yay` (Pakete via AUR-Helper yay installieren), `--backend [auto|rocm|hip|vulkan|cuda|cpu]`, `--lm [0.6B|1.7B|4B]`, `--xl`, `--rebuild`, `--no-browser`
 
 **Mehrere Grafikkarten:** Das Skript nutzt standardmäßig die erste Karte und bevorzugt die dedizierte (`HIP_VISIBLE_DEVICES=0`, `DRI_PRIME=1`, `GGML_VK_VISIBLE_DEVICES=0`). Wer eine andere Karte braucht, setzt die Variable vor dem Start selbst, zum Beispiel `GGML_VK_VISIBLE_DEVICES=1 ./arch_linux.sh --start`. Die eigenen Werte werden nicht überschrieben.
@@ -114,7 +117,9 @@ uv run uvicorn app.main:app --host 127.0.0.1 --port 8765
 | `Install.command` | Installer (Mac) |
 | `Music Generator ON/OFF.command` | Start und Stopp (Mac) |
 | `Install.ps1`, `Music Generator ON/OFF.ps1` + `.bat` | Installer, Start und Stopp (Windows) |
-| `arch_linux.sh`, `Install.sh`, `Music Generator ON/OFF.sh` | Installer, Start und Stopp (Arch Linux & Linux) |
+| `arch_linux.sh`, `Install.sh`, `Uninstall.sh`, `Music Generator ON/OFF.sh` | Installer, Uninstaller, Start und Stopp (Arch Linux & Linux, Autor: ZeroDot1) |
+| `launcher.py`, `music-generator.desktop` | Rahmenlose, dunkle Python-Desktop-GUI & Desktop-Starter (Autor: ZeroDot1) |
+| `packaging/arch/` | Arch Linux PKGBUILD & Paketbau-Skript `build_package.sh` (Autor: ZeroDot1) |
 | `scripts/common.sh` | gemeinsame Pfade, Ports, acestep.cpp-Version, Modell-Prüfsummen |
 | `scripts/common.ps1` | Windows-Gegenstück, liest die Werte aus `common.sh` |
 | `scripts/metal_selftest.py` | Sprachmodell-Test des Installers |
