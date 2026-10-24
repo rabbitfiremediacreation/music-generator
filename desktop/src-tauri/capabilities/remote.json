@@ -1,0 +1,21 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "webapp",
+  "description": "Die lokale Web-App darf nur ihre Sprache melden, Downloads an die Hülle geben und die Speicherverwaltung öffnen.",
+  "windows": [
+    "main"
+  ],
+  "remote": {
+    "urls": [
+      "http://localhost:8765/*",
+      "http://127.0.0.1:8765/*"
+    ]
+  },
+  "permissions": [
+    "allow-set-lang",
+    "allow-save-download",
+    "allow-reveal-download",
+    "allow-storage-summary",
+    "allow-open-storage"
+  ]
+}

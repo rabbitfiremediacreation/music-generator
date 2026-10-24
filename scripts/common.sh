@@ -38,6 +38,14 @@ ENGINE_MAC_REV="b7ba6d9"
 ENGINE_MAC_MIN_OS=26
 ENGINE_MAC_URL="https://github.com/rabbitfiremediacreation/music-generator/releases/download/engine-macos-arm64-b7ba6d9/acestep-cpp-macos-arm64-b7ba6d9.zip"
 ENGINE_MAC_SHA256="dee4327b9e14882f8acae1aeef5f97e19327a5444ce2dd7357e22295fb8df915"
+# Nur Linux x86_64 (Desktop-App): acestep.cpp mit Vulkan, gebaut auf Ubuntu 22.04 von .github/workflows/engine-linux.yml
+# (scripts/build_engine_linux.sh), als eigene Veröffentlichung im Fork. Arch-Installer baut weiterhin selbst.
+# shellcheck disable=SC2034
+ENGINE_LINUX_REV="b7ba6d9"
+# shellcheck disable=SC2034
+ENGINE_LINUX_URL="https://github.com/3ddruck12/music-generator/releases/download/engine-linux-x64-b7ba6d9/acestep-cpp-linux-x64-b7ba6d9.zip"
+# shellcheck disable=SC2034
+ENGINE_LINUX_SHA256="8ea856c7224f61f67836521c5181c131d5bff5876c292bae6bf04855c7c204f5"
 
 export PATH="$HOME/.local/bin:/opt/rocm/bin:/opt/cuda/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
 [ -d "/opt/rocm/lib" ] && export LD_LIBRARY_PATH="/opt/rocm/lib:${LD_LIBRARY_PATH:-}"

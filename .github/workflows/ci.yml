@@ -1,0 +1,62 @@
+# Tests der Desktop-App (Rust) und Starttest der Web-App (Python) auf Linux, Windows und macOS.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: desktop/src-tauri
+      - name: Pakete für WebKitGTK
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libsoup-3.0-dev
+      - name: Formatierung
+        working-directory: desktop/src-tauri
+        run: cargo fmt --check
+      - name: Clippy
+        working-directory: desktop/src-tauri
+        run: cargo clippy --all-targets -- -D warnings
+
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, windows-latest, macos-14]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: desktop/src-tauri
+      - uses: astral-sh/setup-uv@v6
+      - name: Pakete für WebKitGTK
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libsoup-3.0-dev
+      - name: Python-Umgebung
+        run: uv sync --frozen
+      - name: Web-App lädt (normal und im Desktop-Modus mit eigenem Datenordner)
+        shell: bash
+        run: |
+          uv run --frozen python -c "import app.main"
+          MG_DESKTOP=1 MG_HOME="$RUNNER_TEMP/mg-home" uv run --frozen python -c "
+          from app import db, desktop
+          assert desktop.BUNDLED, 'MG_HOME wird nicht genutzt'
+          assert db.DATA.parent.name == 'mg-home', db.DATA
+          import app.main
+          print('ok', db.DATA)"
+      - name: Rust-Tests
+        working-directory: desktop/src-tauri
+        run: cargo test

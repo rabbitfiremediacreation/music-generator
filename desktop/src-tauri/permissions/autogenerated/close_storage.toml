@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-close-storage"
+description = "Enables the close_storage command without any pre-configured scope."
+commands.allow = ["close_storage"]
+
+[[permission]]
+identifier = "deny-close-storage"
+description = "Denies the close_storage command without any pre-configured scope."
+commands.deny = ["close_storage"]

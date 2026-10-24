@@ -10,6 +10,21 @@ Web-Oberfläche für [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5) ü
 - **Linux** (Arch Linux / Derivate mit Installer, andere Distributionen von Hand): Abschnitt [Linux](#linux-arch-linux--derivate) unten
 - **Videos zur Installation:** [Windows](https://youtu.be/se2g3tRFzrg) · [Mac](https://youtu.be/FxNSXj_wMBQ)
 
+## Desktop-App (Alpha)
+
+Statt Installer-Skript und Browser gibt es eine **Desktop-App** (Tauri) für Linux, Windows und macOS (Apple Silicon):
+ein Fenster, das Modellserver und Web-App selbst startet und beim Schließen beendet. Beim ersten Start richtet sie alles
+ein (Modellserver, Modelle mit Fortsetzen und SHA-256-Prüfung, Python-Umgebung, Grafiktest), ohne Terminal.
+
+> **Alpha.** Getestet nur unter **Linux** (Mint 22.3, NVIDIA über Vulkan). Die Pakete für **Windows** (MSI) und
+> **macOS** (DMG) werden gebaut, sind aber **nicht getestet**. Die Pakete sind nicht signiert: macOS fragt beim ersten
+> Öffnen nach (Rechtsklick › Öffnen), Windows zeigt die SmartScreen-Warnung (Weitere Informationen › Trotzdem ausführen).
+
+- Download: [Releases](../../releases) (`desktop-v…`), Pakete: AppImage/deb/rpm, MSI, DMG
+- Daten (Modelle, Songs) liegen wie bei den Skripten in `~/MusicGenerator`; eine vorhandene Installation wird genutzt.
+- Speicher & Modelle (Zahnrad › „Verwalten …“ oder Tray-Menü): Modelle löschen, Cache leeren, Sprachmodell wechseln.
+- Quelltext der App in `desktop/` (Rust, Tauri 2), Workflows in `.github/workflows/`.
+
 ## Installation
 
 Voraussetzungen: Mac mit Apple Silicon (M1 oder neuer), mindestens 8 GB Arbeitsspeicher, 7–11 GB frei.

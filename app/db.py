@@ -1,13 +1,17 @@
 """SQLite-Speicher für Songs (Metadaten) und Einstellungen."""
 import json
+import os
 import sqlite3
 import threading
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DATA = ROOT / "data"
+# Datenordner (data/, engine/): der Programmordner, außer die Desktop-App gibt einen eigenen vor (MG_HOME), weil
+# ihr Programmordner schreibgeschützt ist.
+HOME = Path(os.environ["MG_HOME"]) if os.environ.get("MG_HOME") else ROOT
+DATA = HOME / "data"
 SONGS_DIR = DATA / "songs"
-MODELS_DIR = ROOT / "engine" / "acestep.cpp" / "models"
+MODELS_DIR = HOME / "engine" / "acestep.cpp" / "models"
 DB_PATH = DATA / "music.db"
 
 def _engine_conf() -> dict:
@@ -42,7 +46,7 @@ def set_lm_device(value: str) -> None:
         lines = []
     if value == "cpu":
         lines.append("LM_DEVICE=cpu")
-    DATA.mkdir(exist_ok=True)
+    DATA.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + ("\n" if lines else ""))
 
 DEFAULT_SETTINGS = {
@@ -74,7 +78,7 @@ def songs_dir() -> Path:
 
 
 def connect() -> sqlite3.Connection:
-    DATA.mkdir(exist_ok=True)
+    DATA.mkdir(parents=True, exist_ok=True)
     SONGS_DIR.mkdir(exist_ok=True)
     con = sqlite3.connect(DB_PATH, check_same_thread=False)
     con.row_factory = sqlite3.Row

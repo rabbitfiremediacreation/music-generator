@@ -1,0 +1,25 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Start-, Fehler- und Einrichtungsseite der App (desktop/ui)",
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "core:default",
+    "allow-splash-state",
+    "allow-retry",
+    "allow-open-logs",
+    "allow-open-folder",
+    "allow-quit",
+    "allow-install",
+    "allow-cancel-install",
+    "allow-choose-home",
+    "allow-open-storage",
+    "allow-close-storage",
+    "allow-delete-model",
+    "allow-clear-cache",
+    "allow-reset-all",
+    "allow-change-models"
+  ]
+}

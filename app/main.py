@@ -22,7 +22,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from pydantic import BaseModel, Field
 from starlette.background import BackgroundTask
 
-from . import db, updater
+from . import db, desktop, updater
 from .engines import DIT_MODELS, EngineError, make_engine
 from .messages import tr
 
@@ -119,7 +119,7 @@ async def lifespan(app: FastAPI):
     db.init()
     for old in db.DATA.glob("mg-*.zip"):   # Reste abgebrochener Downloads
         old.unlink(missing_ok=True)
-    if sys.platform == "darwin":   # Symbole der Start-Dateien erneuern (Git/ZIP setzen sie zurück)
+    if sys.platform == "darwin" and not desktop.ACTIVE:   # Symbole der Start-Dateien erneuern (Git/ZIP setzen sie zurück)
         subprocess.Popen(["bash", str(Path(__file__).resolve().parent.parent / "scripts" / "symbole.sh")],
                          stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     task = asyncio.create_task(worker())
@@ -310,7 +310,7 @@ MP3_KBPS = 192
 
 def _mp3_tool() -> Path | None:
     """Der MP3-Wandler der Engine (mp3-codec), wenn er mitgeliefert wurde."""
-    b = db.ROOT / "engine" / "acestep.cpp" / "build"
+    b = db.HOME / "engine" / "acestep.cpp" / "build"   # Datenordner (Desktop-App: MG_HOME), sonst der Programmordner
     for p in (b / "mp3-codec", b / "mp3-codec.exe", b / "Release" / "mp3-codec.exe", b / "bin" / "mp3-codec.exe"):
         if p.is_file():
             return p
@@ -521,6 +521,9 @@ async def analyze(audio: UploadFile, x_lang: str = Header("de")):
 
 @app.post("/api/shutdown")
 async def shutdown(x_lang: str = Header()):   # Pflicht-Header: fremde Webseiten können ihn nicht mitschicken
+    if desktop.ACTIVE:   # die Desktop-App beendet Modellserver und sich selbst
+        desktop.request_exit("quit")
+        return {"ok": True, "desktop": True}
     if sys.platform == "win32":
         name = "Music Generator OFF.ps1"
     elif sys.platform == "darwin":

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Music Generator</title>
+  <link rel="stylesheet" href="splash.css">
+</head>
+<body>
+  <main>
+    <img class="logo" src="logo.svg" alt="" width="84" height="84">
+    <h1>Music Generator</h1>
+    <section id="starting" aria-live="polite">
+      <div class="spinner" aria-hidden="true"></div>
+      <p id="step"></p>
+    </section>
+    <section id="setup" hidden aria-labelledby="setupTitle">
+      <h2 id="setupTitle" data-t="setup_title"></h2>
+      <p class="muted" data-t="setup_intro"></p>
+      <div class="card">
+        <div class="row">
+          <span class="label" data-t="setup_folder"></span>
+          <code id="home"></code>
+          <button id="changeHome" class="small" data-t="setup_change"></button>
+        </div>
+        <p id="hw" class="muted small-text"></p>
+        <fieldset>
+          <legend class="label" data-t="setup_lm"></legend>
+          <p class="muted small-text" data-t="setup_lm_hint"></p>
+          <div id="lmChoices" class="choices"></div>
+        </fieldset>
+        <label class="check"><input type="checkbox" id="xl"> <span data-t="setup_xl"></span></label>
+        <p id="warn" class="warn small-text" hidden></p>
+        <p id="sizes" class="muted small-text"></p>
+        <p id="noEngine" class="error" hidden data-t="setup_no_engine"></p>
+      </div>
+      <div class="buttons">
+        <button id="install" class="primary" data-t="setup_install"></button>
+        <button id="setupBack" data-t="btn_back" hidden></button>
+        <button id="quit2" data-t="btn_quit"></button>
+      </div>
+    </section>
+    <section id="installing" hidden aria-live="polite">
+      <p id="instStep"></p>
+      <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div id="barFill"></div></div>
+      <p id="instDetail" class="muted small-text"></p>
+      <div class="buttons"><button id="cancel" data-t="setup_cancel"></button></div>
+    </section>
+    <section id="storage" hidden aria-labelledby="storageTitle">
+      <h2 id="storageTitle" data-t="storage_title"></h2>
+      <p class="muted small-text"><code id="stHome"></code></p>
+      <p id="stTotal" class="muted small-text"></p>
+      <p id="stFreed" class="ok small-text" role="status"></p>
+      <div class="card">
+        <table class="st">
+          <tbody id="stModels"></tbody>
+          <tbody id="stOther"></tbody>
+        </table>
+      </div>
+      <div class="buttons">
+        <button id="stBack" class="primary" data-t="btn_back"></button>
+        <button id="stChange" data-t="btn_change"></button>
+        <button id="stReset" class="danger" data-t="btn_reset"></button>
+      </div>
+      <p class="muted small-text" data-t="reset_hint"></p>
+    </section>
+    <section id="failed" hidden>
+      <p id="error" class="error" role="alert"></p>
+      <p id="logfile" class="muted"></p>
+      <pre id="tail" hidden></pre>
+      <div class="buttons">
+        <button id="retry" class="primary" data-t="btn_retry"></button>
+        <button id="logs" data-t="btn_logs"></button>
+        <button id="folder" data-t="btn_folder"></button>
+        <button id="quit" data-t="btn_quit"></button>
+      </div>
+    </section>
+  </main>
+  <script src="splash.js"></script>
+</body>
+</html>

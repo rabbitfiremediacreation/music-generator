@@ -8,7 +8,7 @@ from pathlib import Path
 
 from fastapi import APIRouter, Header, HTTPException, Request
 
-from . import db
+from . import db, desktop
 from .messages import tr
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -63,6 +63,8 @@ def _status(lang: str = "de") -> dict:
 
 @router.get("/check")
 async def check(x_lang: str = Header("de")):
+    if desktop.BUNDLED:
+        return {"ok": False, "error": tr(x_lang, "desktop_updates")}
     try:
         return {"ok": True, **await asyncio.to_thread(_status, x_lang)}
     except Exception as e:  # noqa: BLE001
@@ -118,6 +120,8 @@ def _apply_nogit(s: dict) -> dict:
 
 @router.post("/apply")
 async def apply(request: Request, x_lang: str = Header()):   # Pflicht-Header wie bei /api/shutdown: ein Formular-POST fremder Webseiten kann ihn nicht setzen
+    if desktop.BUNDLED:
+        raise HTTPException(400, tr(x_lang, "desktop_updates"))
     busy = db.one("SELECT COUNT(*) AS n FROM songs WHERE status IN ('queued','running')")["n"]
     if busy:
         raise HTTPException(409, tr(x_lang, "busy"))
@@ -131,7 +135,10 @@ async def apply(request: Request, x_lang: str = Header()):   # Pflicht-Header wi
 
 def _restart(port: int) -> None:
     """Neuen Server abgekoppelt starten, der wartet, bis der Port frei ist; dann diesen beenden."""
-    log = open(ROOT / "data" / "server.log", "ab")
+    if desktop.ACTIVE:   # die Desktop-App startet die Web-App selbst neu
+        desktop.exit_now("restart")
+        return
+    log = open(db.DATA / "server.log", "ab")
     if sys.platform == "win32":
         script = (f'while (Get-NetTCPConnection -State Listen -LocalPort {port} -ErrorAction SilentlyContinue) {{ Start-Sleep -Milliseconds 300 }}; '
                   f'& "{sys.executable}" -m uvicorn app.main:app --host 127.0.0.1 --port {port}')
