@@ -24,6 +24,7 @@ from starlette.background import BackgroundTask
 
 from . import db, updater
 from .engines import DIT_MODELS, EngineError, make_engine
+from .klang import hoehen_ausgleichen
 from .messages import tr
 
 log = logging.getLogger("uvicorn.error")
@@ -100,6 +101,8 @@ async def worker():
                 continue
             finally:
                 _running.clear()
+            if ext == "wav" and db.get_settings().get("highs") == "on":
+                audio = await asyncio.to_thread(hoehen_ausgleichen, audio)
             fname = f"{sid}.{ext}"
             (db.songs_dir() / fname).write_bytes(audio)
             if db.one("SELECT status FROM songs WHERE id=?", (sid,))["status"] == "running":
@@ -457,6 +460,8 @@ def put_settings(values: dict, x_lang: str = Header("de")):
             values["dit"] = "standard"
         if values["dit"] == "xl" and not (db.MODELS_DIR / DIT_MODELS["xl"]).is_file():
             raise HTTPException(400, tr(x_lang, "xl_missing"))
+    if "highs" in values:
+        values["highs"] = "on" if values["highs"] == "on" else "off"
     if "export_format" in values:
         values["export_format"] = "mp3" if values["export_format"] == "mp3" else "wav"
         if values["export_format"] == "mp3" and not _mp3_tool():
