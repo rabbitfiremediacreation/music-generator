@@ -20,7 +20,7 @@ static BOOKMARKS: OnceLock<Mutex<Bookmarks>> = OnceLock::new();
 
 pub fn data_root() -> PathBuf {
     PathBuf::from(NSHomeDirectory().to_string())
-        .join("Library/Application Support/de.freicon.music-generator")
+        .join("Library/Application Support/de.alphatester.music-generator")
 }
 
 // Restore user-selected directory grants before touching models or the library.

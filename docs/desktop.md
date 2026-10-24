@@ -45,9 +45,9 @@ Songs can be 10 seconds to 10 minutes long. Above five minutes the form shows a 
 
 Since 0.2.7, new generations normalize to the actual audio peak instead of the engine's percentile clipping. Rust sends `peak_clip: 0` to both generation stages and reapplies it after LM enrichment. Existing library audio and stored parameters are retained. This addresses that normalization step; it is not a claim that every possible audible distortion has been eliminated.
 
-- macOS: `~/Library/Containers/de.freicon.music-generator/Data/Library/Application Support/de.freicon.music-generator/`
-- Windows: `%LOCALAPPDATA%\de.freicon.music-generator\`
-- Linux: `$XDG_DATA_HOME/de.freicon.music-generator/` (normally `~/.local/share/…`)
+- macOS: `~/Library/Containers/de.alphatester.music-generator/Data/Library/Application Support/de.alphatester.music-generator/`
+- Windows: `%LOCALAPPDATA%\de.alphatester.music-generator\`
+- Linux: `$XDG_DATA_HOME/de.alphatester.music-generator/` (normally `~/.local/share/…`)
 
 The database is `music.db`. Models and songs default to subdirectories there; their locations are selectable. Logs are in `logs/desktop.log`, `logs/ace-server.log`, and, in split mode, `logs/ace-lm.log`.
 
@@ -55,7 +55,14 @@ Packaged macOS builds enable Apple's App Sandbox. Network client/server entitlem
 
 The current ad-hoc test signatures have no stable Developer ID identity. Replacing the app with a different test build can require selecting external folders again; model and song files remain intact. Folder grants survive restarting the same build, which has been tested. Stable signing and notarization remain a separate release step.
 
-Earlier unsandboxed desktop test builds used `~/Library/Application Support/de.freicon.music-generator/`. To retain that library, select that directory using the first-run import button; it copies the database and songs into an empty sandbox library and reuses verified models after authorization. Existing files remain in place. Legacy browser-project imports still use the same button.
+The package identifier is now `de.alphatester.music-generator` on every platform. macOS therefore creates a new App Sandbox container. On the first launch after this rename, use **Import existing library** to authorize and copy the previous profile into the empty new library. Select the directory containing `music.db`:
+
+- Previous sandboxed macOS builds: `~/Library/Containers/de.freicon.music-generator/Data/Library/Application Support/de.freicon.music-generator/`.
+- Earlier unsandboxed macOS builds: `~/Library/Application Support/de.freicon.music-generator/`.
+- Previous Windows builds: `%LOCALAPPDATA%\de.freicon.music-generator\`.
+- Previous Linux builds: `$XDG_DATA_HOME/de.freicon.music-generator/` (normally `~/.local/share/de.freicon.music-generator/`).
+
+Import copies SQLite/WAL data and songs, keeping original song parameters and source files. It does not merge populated libraries or change the previous installation. Existing models can be reused after checksum verification; authorize external model/song folders again through the native Browse dialog when required. The new app cannot silently inherit another identifier's sandbox permissions. Legacy browser-project imports still use the same button.
 
 The studio and Settings include a [ModelPicker](model-picker.md) for 52 ACE-Step synthesis weights and eight language weights, with a RAM-budget filter and verified resumable downloads. [HeartMuLa](heartmula.md) adds two native integrated model/codec choices with its own parameters, downloads and local generation. New jobs retain a model snapshot; existing songs keep their saved values.
 
