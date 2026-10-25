@@ -1,0 +1,1100 @@
+<!--
+  @file        audio-tool.html
+  @description HTML interface for StudioScript
+  @author      JT Farrell
+  @copyright   Copyright (c) 2024 JT Farrell
+  @license     See LICENSE-STUDIO-SCRIPT.md
+  @contact     jt.farrell@yahoo.com
+  @version     1.5.7
+
+  This HTML file is licensed separately from the host application.
+  Authorized use is limited to ALPHATESTER.
+  Modifications and use in other applications require
+  prior written permission, subject to applicable law.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Soundstudio</title>
+<link rel="stylesheet" href="/static/studio/audio.css">
+<style>
+.studio-nav{display:flex;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid var(--panel-border);background:var(--panel)}
+.studio-nav a{color:var(--text);text-decoration:none;border:1px solid var(--panel-border);border-radius:8px;padding:7px 11px;font-size:13px}
+.studio-nav a:hover{border-color:var(--accent)}
+.studio-nav strong{font-size:14px;letter-spacing:.04em}
+#studioLoadStatus{margin-left:auto;color:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+<nav class="studio-nav"><a href="/">← Music Generator</a><strong>Soundstudio</strong><span id="studioLoadStatus" role="status"></span></nav>
+
+
+<h1
+  data-title="SoundStudio"
+  data-description="Studio"
+>
+</h1>
+
+
+
+<!-- =========================
+MIXER (KANÄLE)
+========================= -->
+
+<div id="studioLayout">
+    <button id="studioModeBtn" type="button" aria-pressed="false">⛶ Studio Mode</button>
+<div id="mixer">
+
+<!-- TRACK 1 -->
+<div class="channel">
+    <div class="channel-header">TRACK 1</div>
+
+    <select id="track1Source">
+    <option value="audio">
+        Audio
+    </option>
+
+    <option value="drum">
+        Drums
+    </option>
+
+    <option value="looper">
+        Looper
+    </option>
+
+    <option value="midi">
+        Midi
+    </option>
+
+</select>
+
+    <div class="meter-fader">
+
+    <div class="meter">
+        <div class="db-scale">
+            <span>0</span>
+            <span>-6</span>
+            <span>-12</span>
+            <span>-24</span>
+            <span>-48</span>
+        </div>
+
+        <div class="vu">
+            <div id="track1Vu" class="vuBar"></div>
+        </div>
+    </div>
+
+    <input
+    type="range"
+    id="track1Fader"
+    class="fader"
+    min="0"
+    max="100"
+    value="75"
+>
+
+</div>
+    <div class="channel-controls">
+        <button id="track1Solo">Solo</button>
+        <button id="track1Mute">Mute</button>
+    </div>
+</div>
+
+<!-- TRACK 2 -->
+<div class="channel">
+
+    <div class="channel-header">
+        MIC (L1)
+    </div>
+
+    <div class="meter-fader">
+
+        <div class="meter">
+
+            <div class="db-scale">
+                <span>0</span>
+                <span>-6</span>
+                <span>-12</span>
+                <span>-24</span>
+                <span>-48</span>
+            </div>
+
+            <div class="vu">
+                <div
+                    id="track2Vu"
+                    class="vuBar">
+                </div>
+            </div>
+
+        </div>
+
+        <input
+            type="range"
+            id="track2Fader"
+            class="fader"
+            min="0"
+            max="100"
+            value="60">
+
+    </div>
+
+    <div class="channel-controls">
+
+    </div>
+
+</div>
+
+<div class="channel">
+
+    <div class="channel-header">
+        EQ
+    </div>
+
+    <div class="eq">
+
+        <label>
+            Low
+            <input
+                type="range"
+                id="eqLow"
+                min="-15"
+                max="15"
+                step="1"
+                value="0"
+            >
+        </label>
+
+        <label>
+    Low Mid
+    <input
+        type="range"
+        id="eqLowMid"
+        min="-15"
+        max="15"
+        step="1"
+        value="0"
+    >
+</label>
+
+<label>
+    High Mid
+    <input
+        type="range"
+        id="eqHighMid"
+        min="-15"
+        max="15"
+        step="1"
+        value="0"
+    >
+</label>
+
+        <label>
+            Mid
+            <input
+                type="range"
+                id="eqMid"
+                min="-15"
+                max="15"
+                step="1"
+                value="0"
+            >
+        </label>
+
+        <label>
+            High
+            <input
+                type="range"
+                id="eqHigh"
+                min="-15"
+                max="15"
+                step="1"
+                value="0"
+            >
+        </label>
+
+    </div>
+
+<select id="eqPreset">
+
+<option value="flat">
+Flat
+</option>
+
+<option value="bass">
+Bass Boost
+</option>
+
+<option value="vocal">
+Vocal
+</option>
+
+<option value="podcast">
+Podcast
+</option>
+
+<option value="master">
+Mastering
+</option>
+
+</select>
+</div>
+
+<div class="channel">
+
+    <div class="channel-header">
+        Effects
+    </div>
+
+    <div class="effects">
+
+        <button id="reverbToggle">
+            Reverb OFF
+        </button>
+
+        <label>
+            Room Size
+            <input
+                type="range"
+                id="reverbSize"
+                min="0.5"
+                max="3"
+                step="0.1"
+                value="1.5"
+            >
+        </label>
+
+        <label>
+            Wet Level
+            <input
+                type="range"
+                id="reverbWet"
+                min="0"
+                max="1"
+                step="0.05"
+                value="0.3"
+            >
+        </label>
+
+        <hr>
+
+<button id="distortionToggle">
+    Distortion OFF
+</button>
+
+<label>
+    Drive
+    <input
+        type="range"
+        id="distortionDrive"
+        min="0"
+        max="100"
+        step="1"
+        value="50"
+    >
+</label>
+
+<label>
+    Tone
+    <input
+        type="range"
+        id="distortionTone"
+        min="500"
+        max="8000"
+        step="100"
+        value="3500"
+    >
+</label>
+
+    </div>
+
+</div>
+
+<div class="channel">
+
+    <div class="channel-header">
+        Recorder
+    </div>
+
+    <div class="recorder">
+
+        <button id="recordStart">
+            ● Record
+        </button>
+
+        <button id="recordStop">
+            ■ Stop
+        </button>
+
+        <button id="recordDownload">
+            ⬇ Download Recording
+        </button>
+
+        <div id="recordStatus">
+            Ready
+        </div>
+
+    </div>
+
+</div>
+
+<div class="channel analyzer-channel">
+
+    <div class="channel-header">
+        Analyzer
+    </div>
+
+    <div class="analyzer-wrap">
+
+        <canvas id="spectrum"></canvas>
+
+    </div>
+
+</div>
+
+    <div class="channel vu-monitor">
+
+    <div class="channel-header">
+        VU Monitor
+    </div>
+
+    <div class="vu large-vu">
+
+        <div
+            id="masterVuLarge"
+            class="vuBar"
+        ></div>
+
+    </div>
+
+    <div id="vuDbText">
+        -∞ dBFS
+    </div>
+
+</div>
+
+<div class="channel master">
+
+    <div class="channel-header">
+        Master (L4)
+    </div>
+
+    <div class="meter-fader">
+
+    <div class="meter">
+        <div class="db-scale">
+            <span>0</span>
+            <span>-6</span>
+            <span>-12</span>
+            <span>-24</span>
+            <span>-48</span>
+        </div>
+
+        <div class="vu">
+            <div id="masterVu" class="vuBar"></div>
+        </div>
+    </div>
+
+    <input
+        type="range"
+        class="fader"
+        id="volume"
+        min="0"
+        max="6"
+        step="0.1"
+        value="1"
+    >
+
+</div>
+
+    <div class="channel-controls">
+        <button id="master">
+            🎧 Mastering
+        </button>
+        <button id="louder">🔊 Louder</button>
+        <button id="quieter">🔉 Quieter</button>
+    </div>
+    <div id="peakIndicator">
+    PEAK
+</div>
+</div>
+
+<div class="channel drum-channel">
+    <div class="channel-header">
+        DRUM MACHINE (L2)
+    </div>
+
+    <label>
+        BPM:
+        <input type="number" id="drumBpm" value="120" min="40" max="240">
+    </label>
+
+    <label>
+        Swing:
+        <input type="range" id="drumSwing" min="0" max="0.5" step="0.01" value="0">
+    </label>
+
+    <label>
+        Humanize:
+        <input type="range" id="drumHumanize" min="0" max="1" step="0.01" value="0">
+    </label>
+
+    <div id="drumSteps">
+        <div>
+            <span class="drum-track-label">
+    Kick
+</span>
+            <span class="drum-step" data-track="kick" data-step="0"></span>
+            <span class="drum-step" data-track="kick" data-step="1"></span>
+            <span class="drum-step" data-track="kick" data-step="2"></span>
+            <span class="drum-step" data-track="kick" data-step="3"></span>
+            <span class="drum-step" data-track="kick" data-step="4"></span>
+            <span class="drum-step" data-track="kick" data-step="5"></span>
+            <span class="drum-step" data-track="kick" data-step="6"></span>
+            <span class="drum-step" data-track="kick" data-step="7"></span>
+        </div>
+        <div>
+            <span class="drum-track-label">
+    Snare
+</span>
+            <span class="drum-step" data-track="snare" data-step="0"></span>
+            <span class="drum-step" data-track="snare" data-step="1"></span>
+            <span class="drum-step" data-track="snare" data-step="2"></span>
+            <span class="drum-step" data-track="snare" data-step="3"></span>
+            <span class="drum-step" data-track="snare" data-step="4"></span>
+            <span class="drum-step" data-track="snare" data-step="5"></span>
+            <span class="drum-step" data-track="snare" data-step="6"></span>
+            <span class="drum-step" data-track="snare" data-step="7"></span>
+        </div>
+        <div>
+            <span class="drum-track-label">
+    Hi-Hat
+</span>
+            <span class="drum-step" data-track="hihat" data-step="0"></span>
+            <span class="drum-step" data-track="hihat" data-step="1"></span>
+            <span class="drum-step" data-track="hihat" data-step="2"></span>
+            <span class="drum-step" data-track="hihat" data-step="3"></span>
+            <span class="drum-step" data-track="hihat" data-step="4"></span>
+            <span class="drum-step" data-track="hihat" data-step="5"></span>
+            <span class="drum-step" data-track="hihat" data-step="6"></span>
+            <span class="drum-step" data-track="hihat" data-step="7"></span>
+        </div>
+         <div>
+            <span class="drum-track-label">
+    Tom
+</span>
+            <span class="drum-step" data-track="tom" data-step="0"></span>
+            <span class="drum-step" data-track="tom" data-step="1"></span>
+            <span class="drum-step" data-track="tom" data-step="2"></span>
+            <span class="drum-step" data-track="tom" data-step="3"></span>
+            <span class="drum-step" data-track="tom" data-step="4"></span>
+            <span class="drum-step" data-track="tom" data-step="5"></span>
+            <span class="drum-step" data-track="tom" data-step="6"></span>
+            <span class="drum-step" data-track="tom" data-step="7"></span>
+        </div>
+         <div>
+            <span class="drum-track-label">
+    Clap
+</span>
+            <span class="drum-step" data-track="clap" data-step="0"></span>
+            <span class="drum-step" data-track="clap" data-step="1"></span>
+            <span class="drum-step" data-track="clap" data-step="2"></span>
+            <span class="drum-step" data-track="clap" data-step="3"></span>
+            <span class="drum-step" data-track="clap" data-step="4"></span>
+            <span class="drum-step" data-track="clap" data-step="5"></span>
+            <span class="drum-step" data-track="clap" data-step="6"></span>
+            <span class="drum-step" data-track="clap" data-step="7"></span>
+        </div>
+         <div>
+            <span class="drum-track-label">
+    Hat
+</span>
+            <span class="drum-step" data-track="hat" data-step="0"></span>
+            <span class="drum-step" data-track="hat" data-step="1"></span>
+            <span class="drum-step" data-track="hat" data-step="2"></span>
+            <span class="drum-step" data-track="hat" data-step="3"></span>
+            <span class="drum-step" data-track="hat" data-step="4"></span>
+            <span class="drum-step" data-track="hat" data-step="5"></span>
+            <span class="drum-step" data-track="hat" data-step="6"></span>
+            <span class="drum-step" data-track="hat" data-step="7"></span>
+        </div>
+         <div>
+            <span class="drum-track-label">
+    Bell
+</span>
+            <span class="drum-step" data-track="bell" data-step="0"></span>
+            <span class="drum-step" data-track="bell" data-step="1"></span>
+            <span class="drum-step" data-track="bell" data-step="2"></span>
+            <span class="drum-step" data-track="bell" data-step="3"></span>
+            <span class="drum-step" data-track="bell" data-step="4"></span>
+            <span class="drum-step" data-track="bell" data-step="5"></span>
+            <span class="drum-step" data-track="bell" data-step="6"></span>
+            <span class="drum-step" data-track="bell" data-step="7"></span>
+        </div>
+         <div>
+            <span class="drum-track-label">
+    Crash
+</span>
+            <span class="drum-step" data-track="crash" data-step="0"></span>
+            <span class="drum-step" data-track="crash" data-step="1"></span>
+            <span class="drum-step" data-track="crash" data-step="2"></span>
+            <span class="drum-step" data-track="crash" data-step="3"></span>
+            <span class="drum-step" data-track="crash" data-step="4"></span>
+            <span class="drum-step" data-track="crash" data-step="5"></span>
+            <span class="drum-step" data-track="crash" data-step="6"></span>
+            <span class="drum-step" data-track="crash" data-step="7"></span>
+        </div>
+    </div>
+
+    <button id="drumStart">Start</button>
+    <button id="drumStop">Stop</button>
+</div>
+
+    <div class="channel limiter-channel">
+
+    <div class="channel-header">
+        Limiter
+    </div>
+
+   <div class="limiter-sliders">
+
+    <label>
+        Threshold
+
+        <input
+            type="range"
+            id="limiterThreshold"
+            min="-24"
+            max="0"
+            step="1"
+            value="-6"
+            orient="vertical"
+        >
+    </label>
+
+    <label>
+        Ceiling
+
+        <input
+            type="range"
+            id="limiterCeiling"
+            min="-6"
+            max="0"
+            step="0.1"
+            value="-0.3"
+            orient="vertical"
+        >
+    </label>
+
+    <label>
+        Soft Clip
+
+        <input
+            type="range"
+            id="softClipAmount"
+            min="0.5"
+            max="5"
+            step="0.1"
+            value="0.75"
+            orient="vertical"
+        >
+    </label>
+
+</div>
+
+<button id="softClipToggle">
+    Soft Clip OFF
+</button>
+
+    <div id="limiterStatus">
+        Ready
+    </div>
+
+    <div id="peakDb">
+        Peak: -∞ dBFS
+    </div>
+
+    <div id="rmsDb">
+        RMS: -∞ dBFS
+    </div>
+
+    <div id="stereoDb">
+    L: -∞ dB<br>
+    R: -∞ dB
+</div>
+
+        <div id="correlation">
+    CORR: +1.00
+</div>
+
+<div id="stereoWidth">
+    WIDTH: 0%
+</div>
+
+<div id="lufsMeter">
+    LUFS: -∞
+</div>
+</div>
+
+<div class="channel mic-channel">
+
+    <div class="channel-header">
+        Mic Interface
+    </div>
+
+    <button id="micToggle">
+    MIC OFF
+</button>
+
+<div class="mic-sliders">
+
+    <label>
+        Gain
+
+        <input
+            type="range"
+            id="micGain"
+            min="0"
+            max="3"
+            step="0.05"
+            value="1"
+        >
+    </label>
+
+    <label>
+        Gate
+
+        <input
+            type="range"
+            id="micGateThreshold"
+            min="0.004"
+            max="0.030"
+            step="0.005"
+            value="0.010"
+        >
+    </label>
+
+    <label>
+
+    Ambience
+
+    <input
+        type="range"
+        id="micAmbience"
+        min="0"
+        max="1"
+        step="0.01"
+        value="0"
+    >
+</label>
+
+    <label>
+    Comp
+
+    <input
+        type="range"
+        id="micComp"
+        min="1"
+        max="8"
+        step="0.1"
+        value="3"
+    >
+</label>
+
+</div>
+
+<div class="vu mic-vu">
+
+        <div
+            id="micVu"
+            class="vuBar"
+        ></div>
+
+    </div>
+
+    <div id="micStatus">
+        Ready
+    </div>
+
+</div>
+</div>
+
+<canvas id="waveform" class="waveform"></canvas>
+<canvas id="waveformMic" class="waveform"></canvas>
+
+<div id="apps">
+
+<div class="app">
+
+    <div class="app-header">
+        Player
+    </div>
+
+    <label for="librarySongSelect" class="player-library-label">Load Generated Titles from the App Library</label>
+    <div class="player-library-row">
+        <select id="librarySongSelect" aria-label="Select a title from the app library">
+            <option value="">Loading library …</option>
+        </select>
+        <button id="loadLibrarySong" type="button">Load into Studio</button>
+    </div>
+    <div id="studioLoadStatus" role="status" aria-live="polite"></div>
+
+    <label for="fileInput" class="player-library-label">Or select an local audio file</label>
+    <input
+        type="file"
+        id="fileInput"
+        accept="audio/*,.mp3,.wav,.flac,.m4a,.ogg"
+    >
+
+    <div id="status">
+        Ready
+    </div>
+
+    <button id="play">
+        ▶ Play
+    </button>
+
+    <button id="stop">
+        ■ Stop
+    </button>
+
+</div>
+
+<div class="app">
+
+    <div class="app-header">
+        Effects
+    </div>
+
+    <button id="fadeIn">
+        Start Fade In
+    </button>
+
+    <button id="fadeOut">
+        Start Fade Out
+    </button>
+
+    <button id="clean">
+        Clean up
+    </button>
+
+</div>
+
+    <div class="app">
+
+    <div class="channel-header">
+        MIDI (L3)
+    </div>
+
+    <div class="midi-block">
+
+        <label>
+            Input
+            <select id="midiDevice">
+                <option>
+                    Searching...
+                </option>
+            </select>
+        </label>
+
+        <label>
+            Instrument
+            <select id="instrumentSelect">
+                <option value="piano">
+                    Piano
+                </option>
+                <option value="drum">
+                    Drums
+                </option>
+                <option value="guitar">
+                    Guitar
+                </option>
+                <option value="bass">
+                    Bass
+                </option>
+                <option value="synth">
+                    Synth
+                </option>
+            </select>
+        </label>
+
+        <div id="midiStatus">
+            MIDI ready
+        </div>
+
+    </div>
+
+</div>
+
+<div class="app" id="looperApp">
+
+    <div class="app-header">
+        LOOPER
+    </div>
+
+    <label>
+        Loop Length:
+        <select id="loopLength">
+            <option value="1">1 sec</option>
+            <option value="2" selected>2 sec</option>
+            <option value="4">4 sec</option>
+            <option value="8">8 sec</option>
+        </select>
+    </label>
+
+    <div id="looperStatus">
+        Ready
+    </div>
+
+    <hr>
+
+    <div class="loopRow">
+        <strong>L1</strong>
+
+        <button id="loop1Rec">
+            REC
+        </button>
+
+        <button id="loop1Play">
+            PLAY
+        </button>
+
+        <button id="loop1Stop">
+            STOP
+        </button>
+
+        <button id="loop1Clear">
+            CLEAR
+        </button>
+    </div>
+
+    <div class="loopRow">
+        <strong>L2</strong>
+
+        <button id="loop2Rec">REC</button>
+        <button id="loop2Play">PLAY</button>
+        <button id="loop2Stop">STOP</button>
+        <button id="loop2Clear">CLEAR</button>
+    </div>
+
+    <div class="loopRow">
+        <strong>L3</strong>
+
+        <button id="loop3Rec">REC</button>
+        <button id="loop3Play">PLAY</button>
+        <button id="loop3Stop">STOP</button>
+        <button id="loop3Clear">CLEAR</button>
+    </div>
+
+    <div class="loopRow">
+        <strong>L4</strong>
+
+        <button id="loop4Rec">REC</button>
+        <button id="loop4Play">PLAY</button>
+        <button id="loop4Stop">STOP</button>
+        <button id="loop4Clear">CLEAR</button>
+    </div>
+
+</div>
+
+<div class="app">
+
+    <div class="app-header">
+        Export
+    </div>
+
+    <label>
+<input type="checkbox" id="normalizeExport">
+Normalize
+</label>
+
+<br>
+
+<label>
+<input type="checkbox" id="limiterExport">
+Limiter
+</label>
+
+    <div class="block">
+
+<label>
+Bit Depth:
+</label>
+
+<select id="bitDepth">
+
+<option value="16">
+16-Bit
+</option>
+
+<option value="24" selected>
+24-Bit
+</option>
+
+</select>
+
+<br><br>
+
+<label>
+Sample Rate:
+</label>
+
+<select id="sampleRate">
+
+<option value="44100">
+44.1 kHz
+</option>
+
+<option value="48000" selected>
+48 kHz
+</option>
+
+</select>
+
+<label>
+Export Preset:
+</label>
+
+<select id="exportPreset">
+
+<option value="default">
+Default
+</option>
+
+<option value="cd">
+CD
+</option>
+
+<option value="stream">
+Streaming
+</option>
+
+<option value="master">
+Master
+</option>
+
+</select>
+
+<br><br>
+
+</div>
+
+    <button id="download">
+        Download
+    </button>
+
+</div>
+
+</div>
+<script src="/static/studio/audio-tool.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const studioBtn = document.getElementById("studioModeBtn");
+  const updateStudioButton = () => {
+    const active = Boolean(document.fullscreenElement);
+    if (studioBtn) {
+      studioBtn.textContent = active ? "✖ Leave Studio" : "⛶ Studio Mode";
+      studioBtn.setAttribute("aria-pressed", String(active));
+    }
+  };
+  if (studioBtn) {
+    studioBtn.addEventListener("click", async () => {
+      try {
+        if (document.fullscreenElement) {
+          await document.exitFullscreen();
+        } else {
+          await document.documentElement.requestFullscreen();
+        }
+      } catch (err) {
+        console.error("Studio fullscreen toggle failed:", err);
+      }
+    });
+    document.addEventListener("fullscreenchange", updateStudioButton);
+    updateStudioButton();
+  }
+
+  const select = document.getElementById("librarySongSelect");
+  const loadButton = document.getElementById("loadLibrarySong");
+  const status = document.getElementById("studioLoadStatus");
+
+  async function loadAudioUrl(audioUrl, filename) {
+    if (!/^\/api\/songs\/[A-Za-z0-9_-]+\/audio$/.test(audioUrl)) {
+      throw new Error("Invalid library path");
+    }
+    const response = await fetch(audioUrl);
+    if (!response.ok) throw new Error("HTTP " + response.status);
+    const blob = await response.blob();
+    const input = document.getElementById("fileInput");
+    if (!input) throw new Error("Audio input not found");
+    const transfer = new DataTransfer();
+    transfer.items.add(new File([blob], filename || "Music-Generator-Song.wav", {type: blob.type || "audio/wav"}));
+    input.files = transfer.files;
+    input.dispatchEvent(new Event("change", {bubbles: true}));
+  }
+
+  async function refreshLibrary() {
+    if (!select) return;
+    try {
+      const response = await fetch("/api/songs");
+      if (!response.ok) throw new Error("HTTP " + response.status);
+      const songs = await response.json();
+      const finished = songs.filter(song => song.status === "done" && song.url);
+      select.replaceChildren();
+      const placeholder = document.createElement("option");
+      placeholder.value = "";
+      placeholder.textContent = finished.length ? "Select a title from the library …" : "No ready titles in the library yet";
+      select.appendChild(placeholder);
+      for (const song of finished) {
+        const option = document.createElement("option");
+        option.value = song.url;
+        option.textContent = (song.title || song.caption || "Untitled") + (song.created_at ? " · " + new Date(song.created_at).toLocaleDateString() : "");
+        select.appendChild(option);
+      }
+      if (status && !status.textContent) status.textContent = finished.length + " ready titles available";
+    } catch (err) {
+      console.error("Could not load app library:", err);
+      select.replaceChildren();
+      const option = document.createElement("option");
+      option.value = "";
+      option.textContent = "App Library is currently unavailable";
+      select.appendChild(option);
+      if (status) status.textContent = "Could not load the library. Is the app running?";
+    }
+  }
+
+  if (loadButton) loadButton.addEventListener("click", async () => {
+    if (!select || !select.value) {
+      if (status) status.textContent = "Please select a title first.";
+      return;
+    }
+    loadButton.disabled = true;
+    if (status) status.textContent = "Audio is loading …";
+    try {
+      await loadAudioUrl(select.value, "Music-Generator-Song.wav");
+      if (status) status.textContent = "Submit Audio to studio";
+    } catch (err) {
+      console.error("Studio library load failed:", err);
+      if (status) status.textContent = "Unable to load Audio: " + err.message;
+    } finally {
+      loadButton.disabled = false;
+    }
+  });
+
+  refreshLibrary();
+  const audioUrl = new URLSearchParams(window.location.search).get("audio");
+  if (audioUrl && /^\/api\/songs\/[A-Za-z0-9_-]+\/audio$/.test(audioUrl)) {
+    if (status) status.textContent = "Audio is loading …";
+    loadAudioUrl(audioUrl, "Music-Generator-Song.wav").then(() => {
+      if (status) status.textContent = "Submit Audio to studio";
+      if (select) select.value = audioUrl;
+    }).catch(err => {
+      console.error("Studio song handoff failed:", err);
+      if (status) status.textContent = "Audio could not be loaded automatically";
+    });
+  }
+});
+</script>
+</body>
+</html>

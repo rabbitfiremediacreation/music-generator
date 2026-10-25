@@ -45,7 +45,7 @@ const I18N = {
     version: "Version", upd_check: "Nach Updates suchen", upd_apply: "JETZT AKTUALISIEREN",
     github: "GitHub", cancel: "Abbrechen", save: "SPEICHERN",
     offline: "Offline", backend_offline: "Backend offline",
-    models: "Modelle", model_server: "Modellserver",
+    models: "Modelle", model_server: "Modellserver", studio_link_label: "Soundstudio", open_studio: "Song im Soundstudio öffnen",
     // Upload
     analyzing: (n) => `Analysiere „${n}“ …`, analyzed: (n) => `„${n}“ analysiert — Stil übernommen.`, error: "Fehler",
     // Bibliothek
@@ -103,6 +103,7 @@ const I18N = {
     library: "Library", search: "Search", only_fav: "Show favorites only", play: "Play",
     auto_lbl: "[Automatic]", own_lyrics: "own lyrics",
     auto_ph: "[Automatic]\nThe model writes the lyrics only when generating, no text appears here. You can type your own lyrics here.",
+    studio_link_label: "Soundstudio", open_studio: "Open song in Soundstudio",
     synth_srv: "Synthesis server", synth_tip: "DiT + VAE, on Metal",
     lm_srv: "Language model server", lm_tip: "Language model, on CPU. Empty = same server as synthesis.",
     timeout: "Timeout (min.)",

@@ -90,8 +90,32 @@ body {
 @media (max-width: 900px) { .top { --h: 64px; gap: 12px; } }
 @media (max-width: 700px) { .top { --h: 48px; gap: 10px; flex-wrap: wrap; } }
 
+
 .card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 18px; min-width: 0; }
+
+/* Soundstudio-Link unter der Bibliothek. */
+.studio-link-card {
+  display: block;
+  padding: 9px 14px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: .78rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.studio-link-card:hover {
+  border-color: var(--accent);
+  color: var(--text);
+  background: var(--gold-tint);
+}
+.studio-link-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .col-title { margin: 0; font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+
 
 /* Formular */
 .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }

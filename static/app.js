@@ -601,6 +601,7 @@ function render() {
     const actions = [
       s.status === "done" && `<button class="sek icon ${s.favorite ? "on" : ""}" data-a="fav" title="${t("fav")}">${s.favorite ? "★" : "☆"}</button>`,
       s.status === "done" && `<a class="download icon fmt" href="${s.url}?download=1" title="${t("download")}">${exportFmt === "mp3" || s.file.endsWith(".mp3") ? "MP3" : "WAV"}</a>`,
+      s.status === "done" && `<a class="sek icon" href="/static/studio.html?audio=${encodeURIComponent(s.url)}" title="${t("open_studio")}">ST</a>`,
       lyr && `<button class="sek icon txt ${openLyrics.has(s.id) ? "on" : ""}" data-a="lyrics" title="${t("show_lyrics")}">TXT</button>`,
       folders.folders.length > 0 && `<button class="sek icon" data-a="move" title="${t("move")}"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></button>`,
       `<button class="sek icon" data-a="more" title="${t("more")}">＋</button>`,

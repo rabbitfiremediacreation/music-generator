@@ -1,0 +1,1437 @@
+/*
+ * @file        audio-tool.css
+ * @description Stylesheet for StudioScript
+ * @author      JT Farrell
+ * @copyright   Copyright (c) 2024 JT Farrell
+ * @license     See LICENSE-STUDIO-SCRIPT.md
+ * @contact     jt.farrell@yahoo.com
+ * @version     1.5.7
+ *
+ * This stylesheet is licensed separately from the host application.
+ * Authorized use is limited to ALPHATESTER.
+ * Modifications and use in other applications require
+ * prior written permission, subject to applicable law.
+ */
+
+.fader,button{
+    cursor:pointer
+}
+#correlation,#status,#vuDbText,.channel-header{
+    text-align:center
+}
+#apps,#mixer{
+    gap:16px;
+    padding:20px
+}
+button,select{
+    font-weight:500;
+    font-size:13px
+}
+.analyzer-wrap,.vu,.vu-large{
+    overflow:hidden
+}
+#mixer,.channel,.drum-channel{
+    box-sizing:border-box
+}
+#drumSteps div,#vuDbText,button,select{
+    font-size:13px
+}
+#correlation,#vuDbText,.drum-track-label{
+    font-family:monospace
+}
+#bitDepth,#drumBpm,#exportPreset,#sampleRate{
+    padding:6px 8px;
+    background:no-repeat #020617;
+    color:var(--text)
+}
+#drumBpm,#drumSteps div,.channel-controls button,.midi-block select,body,button,select,select option{
+    color:var(--text)
+}
+:root{
+    --bg:#0b0f14;
+    --panel:#121821;
+    --panel-border:#1f2937;
+    --text:#e5e7eb;
+    --muted:#6b7280;
+    --accent:#3b82f6;
+    --danger:#ef4444;
+    --success:#22c55e;
+    --warning:#f59e0b
+}
+body{
+    margin:0;
+    background:var(--bg);
+    font-family:Inter,system-ui,sans-serif
+}
+#studioLayout{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    overflow-x:hidden
+}
+#mixer{
+    display:flex;
+    align-items:stretch;
+    width:max-content;
+    min-width:100%;
+    overflow-x:auto;
+    overflow-y:hidden;
+    border-bottom:1px solid var(--panel-border)
+}
+.channel{
+    width:140px;
+    height:490px;
+    flex:0 0 140px;
+    background:linear-gradient(180deg,#121821 0,#0d1520 100%);
+    border:1px solid #223047;
+    border-radius:10px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:12px;
+    gap:14px;
+    box-shadow:inset 0 0 12px rgba(0,0,0,.45),0 0 8px rgba(0,0,0,.25)
+}
+#spectrum,.vu-large{
+    box-shadow:inset 0 0 12px rgba(0,0,0,.8)
+}
+.channel.master{
+    border-color:#3b82f6;
+    box-shadow:inset 0 0 12px rgba(59,130,246,.15),0 0 10px rgba(59,130,246,.15)
+}
+.channel-header{
+    font-size:11px;
+    text-transform:uppercase;
+    color:var(--muted);
+    letter-spacing:1px;
+    border-bottom:1px solid var(--panel-border);
+    padding-bottom:6px;
+    width:100%
+}
+.meter-fader{
+    display:flex;
+    flex-direction:row;
+    align-items:flex-start;
+    justify-content:center;
+    gap:18px;
+    width:100%;
+    height:220px
+}
+.db-scale,.meter{
+    height:180px;
+    display:flex
+}
+.meter{
+    flex-direction:row;
+    align-items:flex-end;
+    gap:10px
+}
+.db-scale{
+    flex-direction:column;
+    justify-content:space-between;
+    font-size:10px;
+    color:#9ca3af
+}
+.db-scale span{
+    line-height:1
+}
+.vu-monitor-channel{
+    width:180px!important;
+    min-width:180px!important;
+    flex:0 0 180px!important
+}
+.vu-monitor-wrap{
+    width:100%;
+    height:320px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#020617;
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid #111827
+}
+.vu-large{
+    position:relative;
+    width:60px;
+    height:260px;
+    background:#000;
+    border-radius:10px
+}
+.vuBarLarge{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:0%;
+    background:linear-gradient(to top,#22c55e 0,#f59e0b 70%,#ef4444 100%);
+    transition:height 50ms linear
+}
+#status,.waveform,.vu{
+    background:#020617
+}
+#vuDbText{
+    margin-top:10px;
+    color:#9ca3af
+}
+.vu{
+    width:14px;
+    height:180px;
+    border-radius:6px;
+    position:relative;
+    box-shadow:inset 0 0 6px rgba(0,0,0,.8)
+}
+.vuBar{
+    width:100%;
+    height:0%;
+    position:absolute;
+    bottom:0;
+    left:0;
+    background:linear-gradient(to top,#22c55e,#f59e0b,#ef4444);
+    transition:height 80ms linear
+}
+#correlation{
+    font-size:11px;
+    color:#aaa;
+    margin-top:4px
+}
+.fader{
+    appearance:slider-vertical;
+    -webkit-appearance:slider-vertical;
+    -moz-appearance:slider-vertical;
+    writing-mode:vertical-lr;
+    direction:rtl;
+    width:18px;
+    height:180px;
+    margin:0;
+    background:#273244;
+    border-radius:10px
+}
+#apps,#distortionAmount,#drumSteps,#peakIndicator,.effects input[type=range],.eq input[type=range],button,input[type=file],select{
+    width:100%
+}
+.fader::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:18px;
+    height:18px;
+    background:#f3f4f6;
+    border-radius:4px;
+    border:none;
+    cursor:pointer
+}
+.fader::-moz-range-thumb{
+    width:18px;
+    height:18px;
+    background:#f3f4f6;
+    border-radius:4px;
+    border:none;
+    cursor:pointer
+}
+.channel-controls{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    width:100%;
+    margin-top:auto
+}
+.channel-controls button{
+    height:30px;
+    font-size:11px;
+    background:linear-gradient(180deg,#1f2937,#18212f);
+    border:1px solid #374151;
+    border-radius:6px;
+    transition:.15s
+}
+.channel-controls button:hover,button:hover{
+    border-color:var(--accent);
+    background:#273244
+}
+.app-header,.distortion-label,input[type=file],label{
+    color:var(--muted)
+}
+button{
+    padding:8px;
+    background:#1f2937;
+    border:1px solid #374151;
+    border-radius:6px;
+    transition:background .15s,border .15s
+}
+button:active{
+    background:#1a2230
+}
+#play{
+    border-color:var(--success)
+}
+#stop{
+    border-color:var(--danger)
+}
+#master{
+    border-color:var(--warning)
+}
+.waveform{
+    width:90%;
+    height:100px;
+    margin:20px auto;
+    display:block;
+    border:1px solid #1f2937
+}
+input[type=file]{
+    padding:6px;
+    background:0 0;
+    border:1px solid var(--panel-border);
+    border-radius:6px;
+    font-size:12px
+}
+#status{
+    margin-top:8px;
+    padding:8px;
+    border:1px solid #1f2937;
+    border-radius:6px;
+    font-size:12px;
+    color:var(--success)
+}
+::-webkit-scrollbar{
+    width:6px
+}
+::-webkit-scrollbar-thumb{
+    background:#374151;
+    border-radius:10px
+}
+.effects,.eq,.midi-block,.recorder{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    padding:10px
+}
+.effects label,.eq label,.midi-block label{
+    display:flex;
+    flex-direction:column;
+    font-size:12px
+}
+#apps{
+    display:flex;
+    flex-wrap:wrap
+}
+.app{
+    flex:1;
+    min-width:220px;
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:8px;
+    padding:14px;
+    display:flex;
+    flex-direction:column;
+    gap:10px
+}
+#looperStatus,#peakIndicator,.block,.midi-block select{
+    background:#020617
+}
+.app-header,.drum-channel .channel-header{
+    text-align:center;
+    padding-bottom:6px;
+    text-transform:uppercase
+}
+.distortion-label,.loopRow,label{
+    gap:6px;
+    display:flex
+}
+.app-header{
+    font-size:12px;
+    border-bottom:1px solid var(--panel-border)
+}
+input[type=checkbox]:hover,select:focus,select:hover{
+    border-color:var(--accent)
+}
+#distortionToggle{
+    border-color:#f59e0b;
+    background:linear-gradient(180deg,#2b1d08,#1a1205)
+}
+#distortionToggle.active{
+    background:linear-gradient(180deg,#f59e0b,#d97706);
+    color:#fff;
+    border-color:#fbbf24;
+    box-shadow:0 0 10px rgba(245,158,11,.45)
+}
+.distortion-label{
+    flex-direction:column;
+    font-size:12px
+}
+#recordStatus{
+    font-size:12px;
+    opacity:.8
+}
+#spectrum{
+    width:100%!important;
+    height:100%!important;
+    margin-top:auto;
+    margin-bottom:auto;
+    display:block;
+    background:linear-gradient(180deg,#020617,#000);
+    border-radius:8px;
+    border:1px solid #111827
+}
+input[type=checkbox],select{
+    border:1px solid var(--panel-border);
+    background:var(--panel);
+    cursor:pointer
+}
+select{
+    padding:8px 10px;
+    border-radius:6px;
+    transition:border .15s,box-shadow .15s,background .15s;
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+    background-position:calc(100% - 16px) center,calc(100% - 10px) center;
+    background-size:6px 6px,6px 6px;
+    background-repeat:no-repeat
+}
+select:focus{
+    outline:0;
+    box-shadow:0 0 0 2px rgba(59,130,246,.25)
+}
+select option{
+    background:var(--panel)
+}
+input[type=checkbox]{
+    appearance:none;
+    width:16px;
+    height:16px;
+    border-radius:4px;
+    position:relative;
+    transition:background .15s,border .15s,box-shadow .15s
+}
+input[type=checkbox]:checked{
+    background:var(--accent);
+    border-color:var(--accent)
+}
+input[type=checkbox]:checked::after{
+    content:"✓";
+    position:absolute;
+    color:#fff;
+    font-size:12px;
+    top:-1px;
+    left:2px
+}
+label{
+    font-size:12px;
+    align-items:center
+}
+.block{
+    border:1px solid var(--panel-border);
+    border-radius:6px;
+    padding:10px
+}
+.loopRow{
+    align-items:center
+}
+.loopRow strong{
+    width:24px
+}
+#looperStatus{
+    padding:6px;
+    border:1px solid #1f2937;
+    border-radius:6px;
+    font-size:12px;
+    text-align:center
+}
+.midi-block select{
+    margin-top:4px;
+    padding:6px;
+    border:1px solid var(--panel-border);
+    border-radius:6px;
+    font-size:12px
+}
+#midiStatus{
+    font-size:12px;
+    text-align:center;
+    opacity:.8
+}
+#peakIndicator{
+    margin-top:2px;
+    padding:6px;
+    font-size:11px;
+    text-align:center;
+    border:1px solid #1f2937;
+    border-radius:4px;
+    color:#6b7280
+}
+#peakIndicator.active{
+    background:#ef4444;
+    color:#fff;
+    border-color:#ef4444
+}
+.limiter-channel{
+    width:180px!important;
+    min-width:180px!important;
+    display:flex;
+    flex-direction:column;
+    align-items:center
+}
+.limiter-sliders{
+    width:100%;
+    display:flex;
+    justify-content:space-evenly;
+    align-items:flex-start;
+    gap:8px;
+    margin-top:8px
+}
+.limiter-sliders label{
+    display:flex;
+    flex-direction:column!important;
+    align-items:center!important;
+    gap:6px;
+    width:50px;
+    text-align:center;
+    font-size:10px;
+    color:var(--muted)
+}
+#limiterCeiling,#limiterThreshold,#softClipAmount{
+    width:24px;
+    height:140px;
+    margin:0;
+    writing-mode:bt-lr;
+    -webkit-appearance:slider-vertical;
+    appearance:slider-vertical;
+    background:#273244;
+    border-radius:8px;
+    cursor:pointer
+}
+#softClip{
+    width:18px;
+    height:18px;
+    margin:0
+}
+#limiterStatus,#lufsMeter,#peakDb,#rmsDb,#stereoDb,#stereoWidth {
+    width:100%;
+    text-align:center;
+    font-size:10px;
+    line-height:1.1;
+    font-family:monospace;
+    white-space:nowrap;
+    margin-top:2px
+}
+.analyzer-channel{
+    width:260px!important;
+    min-width:260px!important;
+    flex:0 0 260px!important;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    background:#18212f;
+    padding:12px
+}
+.analyzer-wrap,.drum-channel label{
+    align-items:center;
+    display:flex;
+    width:100%
+}
+.analyzer-channel #spectrum{
+    width:100%;
+    height:260px;
+    display:block
+}
+.analyzer-wrap{
+    height:320px;
+    justify-content:center;
+    background:#020617;
+    border-radius:8px
+}
+.drum-channel{
+    width:220px;
+    min-width:220px;
+    height:490px;
+    flex:0 0 240px;
+    background:linear-gradient(180deg,#121821 0,#0d1520 100%);
+    border:1px solid #223047;
+    border-radius:10px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:12px;
+    gap:10px;
+    box-shadow:inset 0 0 12px rgba(0,0,0,.45),0 0 8px rgba(0,0,0,.25)
+}
+.drum-channel .channel-header{
+    width:100%;
+    font-size:11px;
+    color:var(--muted);
+    border-bottom:1px solid var(--panel-border)
+}
+.drum-channel input[type=number],.drum-channel input[type=range]{
+    width:90%;
+    margin-bottom:6px
+}
+.drum-step{
+    width:15px;
+    height:15px;
+    margin:1px;
+    background-color:#444;
+    border:1px solid #666;
+    border-radius:3px;
+    display:inline-block
+}
+.drum-step.active{
+    background-color:#22d3ee
+}
+.drum-step.playing{
+    border-color:#f80
+}
+.drum-channel label{
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:10px;
+    font-size:12px
+}
+.drum-channel button{
+    width:100%;
+    margin-top:6px
+}
+#drumStart,
+#drumStop {
+    padding: 2px 8px;
+    height: 20px;
+    font-size: 11px;
+}
+#drumSteps div{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    margin-top:8px
+}
+#drumSteps div span:first-child{
+    width:42px
+}
+#drumMachineApp{
+    margin-bottom:1rem;
+    padding:.5rem;
+    background-color:#1a1a1a;
+    color:#fff;
+    border-radius:6px
+}
+#drumMachineApp label{
+    display:block;
+    margin-bottom:.5rem
+}
+.drum-track-label{
+    display:inline-block;
+    width:55px;
+    font-size:11px;
+    color:#9ca3af;
+    text-transform:uppercase
+}
+#drumBpm{
+    width:100%;
+    border:1px solid #1f2937;
+    border-radius:6px;
+    font-size:12px;
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+    background-position:calc(100% - 16px) center,calc(100% - 10px) center;
+    background-size:6px 6px,6px 6px
+}
+#bitDepth,#exportPreset,#sampleRate{
+    width:90%;
+    margin-top:4px;
+    border-radius:6px;
+    border:1px solid #1f2937;
+    font-size:12px;
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+    background-position:calc(100% - 16px) center,calc(100% - 10px) center;
+    background-size:6px 6px,6px 6px
+}
+
+/* =====================
+   MICROPHONE CHANNEL
+   ===================== */
+
+.mic-channel {
+    width: 250px !important;
+    min-width: 250px !important;
+    flex: 0 0 250px !important;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border-color: #22c55e;
+
+    box-shadow:
+        inset 0 0 12px rgba(34,197,94,.15),
+        0 0 10px rgba(34,197,94,.15);
+}
+
+.mic-meter-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 10px;
+}
+.mic-sliders {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-evenly;
+
+    align-items: flex-start;
+
+    gap: 8px;
+
+    margin-top: 10px;
+}
+
+.mic-sliders label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+
+    font-size: 10px;
+
+    color: var(--muted);
+}
+.mic-vu {
+    width: 18px;
+    height: 180px;
+    position: relative;
+}
+#micVu {
+    height: 0%;
+}
+#micGain,
+#micGateThreshold,
+#micComp,
+#micAmbience {
+    width: 18px;
+    height: 180px;
+
+    appearance: slider-vertical;
+    -webkit-appearance: slider-vertical;
+    -moz-appearance:slider-vertical;
+
+    writing-mode:vertical-lr;
+    direction:rtl;
+
+    background: #273244;
+    border-radius: 8px;
+}
+
+#micStatus {
+    width: 100%;
+
+    text-align: center;
+
+    font-size: 10px;
+    font-family: monospace;
+
+    color: #9ca3af;
+
+    margin-top: 8px;
+}
+
+#micToggle {
+    width: 100%;
+    margin-top: 10px;
+
+    border-color: #22c55e;
+}
+
+#micToggle.active {
+    background:
+        linear-gradient(
+            180deg,
+            #22c55e,
+            #16a34a
+        );
+
+    color: white;
+
+    border-color: #4ade80;
+
+    box-shadow:
+        0 0 10px rgba(34,197,94,.45);
+}
+
+/* App library selector in the existing Player block */
+.player-library-label { display:block; margin:12px 0 6px; font-size:0.9rem; color:var(--text-secondary, #b9c0cc); }
+.player-library-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
+.player-library-row select { flex:1 1 220px; min-width:0; max-width:100%; }
+#studioLoadStatus { min-height:1.2em; margin:4px 0 8px; font-size:0.85rem; }
+
+
+/* Music Generator visual alignment — first pass */
+:root {
+    --bg: #0c0e12;
+    --panel: #1a1d24;
+    --panel-border: #2a2e38;
+    --text: #eef0f4;
+    --muted: #8a90a0;
+    --accent: #6d8cff;
+    --accent2: #d1a75c;
+    --danger: #ff6b6b;
+    --success: #d1a75c;
+    --warning: #d1a75c;
+    --gold-tint: rgba(209, 167, 92, .08);
+    --gold-tint2: rgba(209, 167, 92, .1);
+}
+
+html {
+    background: var(--bg);
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.studio-nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    gap: 12px;
+    padding: 12px clamp(14px, 2.5vw, 28px);
+    background: rgba(12, 14, 18, .96);
+    border-bottom: 1px solid var(--panel-border);
+    backdrop-filter: blur(8px);
+}
+
+.studio-nav a {
+    background: transparent;
+    border-color: var(--panel-border);
+    border-radius: 6px;
+    padding: 7px 11px;
+    color: var(--text);
+    transition: border-color .15s, color .15s, background .15s;
+}
+
+.studio-nav a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--gold-tint);
+}
+
+.studio-nav strong {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+#studioLoadStatus {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+#studioLayout {
+    width: 100%;
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 0 0 24px;
+}
+
+#studioModeBtn {
+    align-self: flex-start;
+    width: auto;
+    margin: 18px 20px 0;
+    padding: .5rem .8rem;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--panel-border);
+    border-radius: 6px;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .04em;
+}
+
+#studioModeBtn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--gold-tint);
+}
+
+#mixer {
+    gap: 12px;
+    padding: 18px 20px 22px;
+    border-bottom-color: var(--panel-border);
+    scrollbar-color: #454955 var(--bg);
+    scrollbar-width: thin;
+}
+
+.channel,
+.drum-channel {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    box-shadow: none;
+}
+
+.channel.master {
+    border-color: var(--accent2);
+    box-shadow: inset 0 0 0 1px rgba(209, 167, 92, .08);
+}
+
+.channel-header,
+.drum-channel .channel-header {
+    color: var(--muted);
+    border-bottom-color: var(--panel-border);
+    font-weight: 600;
+    letter-spacing: .06em;
+}
+
+button,
+select,
+input[type="number"],
+input[type="file"] {
+    font-family: inherit;
+}
+
+button {
+    color: var(--text);
+    background: linear-gradient(180deg, #34363a, #25272b);
+    border: 1px solid var(--panel-border);
+    border-radius: 6px;
+    font-weight: 600;
+    transition: border-color .15s, background .15s, color .15s;
+}
+
+button:hover {
+    border-color: var(--accent);
+    background: #30333a;
+}
+
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+select,
+input[type="number"],
+input[type="file"] {
+    color: var(--text);
+    background-color: var(--bg);
+    border-color: var(--panel-border);
+    border-radius: 6px;
+}
+
+select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(109, 140, 255, .16);
+}
+
+#play,
+#stop,
+#master,
+#distortionToggle,
+#micToggle {
+    box-shadow: none;
+}
+
+#master,
+.download,
+.channel.master #master {
+    border-color: var(--accent2);
+}
+
+#status,
+#looperStatus,
+#peakIndicator,
+#limiterStatus,
+#lufsMeter,
+#peakDb,
+#rmsDb,
+#stereoDb,
+#stereoWidth,
+#micStatus {
+    border-color: var(--panel-border);
+}
+
+#status {
+    background: var(--bg);
+    color: var(--accent2);
+}
+
+#spectrum,
+.analyzer-wrap,
+.vu,
+.vu-large,
+#looperStatus,
+#peakIndicator,
+#drumMachineApp,
+#bitDepth,
+#drumBpm,
+#exportPreset,
+#sampleRate {
+    background-color: var(--bg);
+}
+
+.analyzer-channel {
+    background: var(--panel);
+}
+
+.drum-step {
+    background-color: #252932;
+    border-color: #454955;
+}
+
+.drum-step.active {
+    background-color: var(--accent2);
+    border-color: var(--accent2);
+}
+
+.drum-step.playing {
+    border-color: var(--accent);
+}
+
+#correlation,
+#vuDbText,
+#micStatus,
+#limiterStatus,
+#lufsMeter,
+#peakDb,
+#rmsDb,
+#stereoDb,
+#stereoWidth {
+    color: var(--muted);
+}
+
+#peakIndicator.active {
+    background: rgba(255, 107, 107, .12);
+    color: var(--danger);
+    border-color: var(--danger);
+}
+
+#distortionToggle.active,
+#micToggle.active {
+    background: var(--accent2);
+    color: #171717;
+    border-color: var(--accent2);
+    box-shadow: none;
+}
+
+#studioLayout button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 700px) {
+    .studio-nav {
+        flex-wrap: wrap;
+        padding: 10px 12px;
+    }
+
+    #studioLoadStatus {
+        flex-basis: 100%;
+        margin-left: 0;
+    }
+
+    #studioModeBtn {
+        margin: 14px 12px 0;
+    }
+
+    #mixer {
+        padding: 14px 12px 18px;
+        gap: 10px;
+    }
+
+    .channel {
+        border-radius: 8px;
+    }
+}
+
+
+/* Visual refinement pass — CSS only; audio behavior and layout structure unchanged */
+:root {
+    --studio-track: #343841;
+    --studio-thumb: #c6c9d0;
+    --studio-thumb-border: #eef0f4;
+}
+
+/* Keep the studio's original layout density; align surfaces with the generator. */
+.channel,
+.drum-channel,
+.analyzer-channel {
+    box-shadow: none !important;
+}
+
+.channel,
+.drum-channel {
+    background: var(--panel);
+    border-color: var(--panel-border);
+}
+
+#drumMachineApp {
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--panel-border);
+}
+
+.mic-channel {
+    border-color: var(--panel-border);
+    box-shadow: none !important;
+}
+
+.mic-meter-wrap,
+.mic-sliders {
+    gap: 8px;
+}
+
+.mic-sliders label {
+    font-size: 10px;
+}
+
+/* Neutral, restrained controls; blue is reserved for keyboard focus and hover. */
+button {
+    background: #292c32;
+    box-shadow: none !important;
+    text-shadow: none;
+}
+
+button:hover {
+    background: #30333a;
+}
+
+button:active {
+    background: #24262b;
+}
+
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+    outline-color: var(--accent);
+}
+
+select,
+input[type="number"],
+input[type="file"],
+#bitDepth,
+#drumBpm,
+#exportPreset,
+#sampleRate {
+    background-color: var(--bg);
+    color: var(--text);
+    border-color: var(--panel-border);
+}
+
+/* Remove the remaining decorative blue slider tracks without changing control values. */
+input[type="range"],
+.fader,
+#micGain,
+#micGateThreshold,
+#micComp,
+#micAmbience,
+#drumBpm,
+.drum-channel input[type="range"] {
+    accent-color: var(--studio-thumb);
+}
+
+input[type="range"] {
+    background: transparent;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    background: var(--studio-track);
+    border-color: var(--panel-border);
+    box-shadow: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    background: var(--studio-thumb);
+    border: 1px solid var(--studio-thumb-border);
+    box-shadow: none;
+}
+
+input[type="range"]::-moz-range-track {
+    background: var(--studio-track);
+    border-color: var(--panel-border);
+    box-shadow: none;
+}
+
+input[type="range"]::-moz-range-thumb {
+    background: var(--studio-thumb);
+    border: 1px solid var(--studio-thumb-border);
+    box-shadow: none;
+}
+
+.fader::-webkit-slider-runnable-track {
+    background: var(--studio-track);
+    box-shadow: none;
+}
+
+.fader::-webkit-slider-thumb {
+    background: var(--studio-thumb);
+    border-color: var(--studio-thumb-border);
+    box-shadow: none;
+}
+
+.fader::-moz-range-track {
+    background: var(--studio-track);
+    box-shadow: none;
+}
+
+.fader::-moz-range-thumb {
+    background: var(--studio-thumb);
+    border-color: var(--studio-thumb-border);
+    box-shadow: none;
+}
+
+#micGain,
+#micGateThreshold,
+#micComp,
+#micAmbience {
+    background: var(--studio-track);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    box-shadow: none;
+}
+
+/* Keep real audio activity visible, but avoid decorative neon/glow. */
+#micToggle.active,
+#distortionToggle.active {
+    background: var(--accent2);
+    color: #171717;
+    border-color: var(--accent2);
+    box-shadow: none !important;
+}
+
+.drum-step.active {
+    background: var(--accent2);
+    border-color: var(--accent2);
+}
+
+.drum-step.playing {
+    border-color: var(--accent);
+    box-shadow: none;
+}
+
+.channel.master {
+    box-shadow: inset 0 0 0 1px rgba(209, 167, 92, .08);
+}
+
+/* Compact, consistent spacing for the existing single-window workstation. */
+#studioLayout {
+    max-width: none;
+    padding-bottom: 12px;
+}
+
+#mixer {
+    gap: 8px;
+    padding: 12px;
+}
+
+.channel,
+.drum-channel {
+    border-radius: 8px;
+}
+
+.channel-header,
+.drum-channel .channel-header {
+    letter-spacing: .04em;
+}
+
+.studio-nav {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+@media (max-width: 700px) {
+    #mixer {
+        gap: 8px;
+        padding: 12px;
+    }
+}
+
+/* Respect users who prefer reduced motion; this is visual-only. */
+@media (prefers-reduced-motion: reduce) {
+    #studioLayout *,
+    #studioLayout *::before,
+    #studioLayout *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+/* Keep the mixer row inside the viewport and center it when all channels fit. */
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+#studioLayout {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    margin: 0 auto;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+#mixer {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    justify-content: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+/* Make the Effects block in the lower app row slightly narrower. */
+#apps > .app:nth-child(2) {
+    flex: 0 1 190px;
+    min-width: 180px;
+}
+
+#fadeIn,
+#fadeOut,
+#clean {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Very slight width reduction for the bottom-right Export app only. */
+#apps > .app:last-child {
+    flex-grow: 0.98;
+    min-width: 218px;
+    padding-left: 13px;
+    padding-right: 13px;
+}
+
+#apps > .app:last-child .block {
+    padding-left: 9px;
+    padding-right: 9px;
+}
+
+
+
+/* Fullscreen layout: use the viewport without scaling the interface. */
+html:fullscreen,
+html:fullscreen body {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+html:fullscreen .studio-nav,
+html:fullscreen body > h1 {
+    display: none !important;
+}
+
+html:fullscreen #studioLayout {
+    width: 100%;
+    height: 100dvh;
+    max-width: none;
+    min-height: 0;
+    margin: 0;
+    padding: 8px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+html:fullscreen #studioModeBtn {
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+html:fullscreen #mixer {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 100%;
+    min-height: 0;
+    padding: 8px;
+    gap: 8px;
+    justify-content: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+html:fullscreen .waveform {
+    flex: 0 0 auto;
+    width: min(100%, 1200px);
+    height: clamp(48px, 8dvh, 80px);
+    margin: 4px auto;
+    box-sizing: border-box;
+}
+
+html:fullscreen #apps {
+    flex: 0 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, .8fr) minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 1fr);
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+html:fullscreen #apps > .app {
+    width: auto;
+    min-width: 0;
+    max-width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+html:fullscreen #apps > .app:last-child,
+html:fullscreen #apps > .app:last-child .block {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+html:fullscreen #apps > .app:last-child select,
+html:fullscreen #apps > .app:last-child button {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+html:fullscreen .loopRow {
+    min-width: 0;
+    gap: 4px;
+}
+
+html:fullscreen .loopRow button {
+    min-width: 0;
+    padding-left: 3px;
+    padding-right: 3px;
+    font-size: 10px;
+}
+
+@media (max-width: 1100px) {
+    html:fullscreen #apps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    html:fullscreen #apps {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
