@@ -11,7 +11,7 @@ Eigene Songs lokal erzeugen – ohne Limits, ohne Abo, ohne Cloud. Web-Oberfläc
 |---|---|---|
 | Systeme | Mac, Windows, Linux | Mac (Apple Silicon), Windows (NVIDIA), Linux |
 | Start | herunterladen, öffnen, ein Assistent lädt die Modelle | Installer im Terminal bzw. PowerShell, Anleitung unten |
-| Download | [**Releases der Desktop-App**](https://github.com/rabbitfiremediacreation/music-generator-desktop/releases) (Version 0.1.3, Test-Version) | diese Seite, Abschnitt [Installation](#installation) |
+| Download | [**Releases der Desktop-App**](https://github.com/rabbitfiremediacreation/music-generator-desktop/releases) (Version 0.2.0, Test-Version) | diese Seite, Abschnitt [Installation](#installation) |
 | Anleitung (PDF) | [Deutsch](Desktop-App-Anleitung.pdf) · [English](Desktop-App-Guide-EN.pdf) · [中文](Desktop-App-Guide-ZH.pdf) | [Deutsch](Installationsanleitung.pdf) · [English](Installation-Guide-EN.pdf) · [中文](Installation-Guide-ZH.pdf) |
 | Videos | [Desktop-App](https://youtu.be/utlWx3HEIAg) | [Windows](https://youtu.be/se2g3tRFzrg) · [Mac](https://youtu.be/FxNSXj_wMBQ) |
 
@@ -21,15 +21,15 @@ Die Web-App bleibt bestehen (auch für Linux mit CUDA oder ROCm und ältere Macs
 
 Kein Git, kein Python, kein Installationsbefehl. Entwickelt gemeinsam mit **Frank Hildebrandt** ([@frankhildebrandt](https://github.com/frankhildebrandt)), dem dafür ausdrücklich gedankt sei.
 
-- **Welche Datei?** Auf der Download-Seite den obersten Eintrag öffnen und unten **„Assets“** aufklappen (nicht „Source code“). Windows: [Music-Generator-0.1.3-windows-x64.msi](https://github.com/rabbitfiremediacreation/music-generator-desktop/releases/download/v0.1.3/Music-Generator-0.1.3-windows-x64.msi) (Installer mit Startmenüeintrag) oder ohne Installation [Music-Generator-0.1.3-windows-x64.zip](https://github.com/rabbitfiremediacreation/music-generator-desktop/releases/download/v0.1.3/Music-Generator-0.1.3-windows-x64.zip) (entpacken, dann die App darin starten). Mac mit Apple Silicon (M1 bis M4): `…-macos-arm64.dmg`, Mac mit Intel: `…-macos-x64.dmg`. Linux: `…-linux-x64.AppImage`, für NVIDIA `…-linux-x64-cuda.AppImage`. Die Dateien mit `.sha256` und `original-builds` brauchst du nicht.
+- **Welche Datei?** Auf der Download-Seite den obersten Eintrag öffnen und unten **„Assets“** aufklappen (nicht „Source code“). Windows: [Music-Generator-0.2.0-windows-x64.msi](https://github.com/rabbitfiremediacreation/music-generator-desktop/releases/download/v0.2.0/Music-Generator-0.2.0-windows-x64.msi) (Installer mit Startmenüeintrag) oder ohne Installation [Music-Generator-0.2.0-windows-x64.zip](https://github.com/rabbitfiremediacreation/music-generator-desktop/releases/download/v0.2.0/Music-Generator-0.2.0-windows-x64.zip) (entpacken, dann die App darin starten). Mac mit Apple Silicon (M1 bis M4): `…-macos-arm64.dmg`, Mac mit Intel: `…-macos-x64.dmg` (beide auch als `.zip`). Linux: `…-linux-x64.AppImage`, für NVIDIA `…-linux-x64-cuda.AppImage`. Die Dateien mit `.sha256` und `original-builds` brauchst du nicht.
 - **Sicherheitsabfrage:** macOS und Windows zeigen beim ersten Start eine Abfrage, weil die App nicht signiert ist. Das steht in der Anleitung.
 - **Wer die Web-App schon nutzt:** Die Desktop-App kann deine Bibliothek übernehmen; beide laufen unabhängig voneinander.
 
 <details>
 <summary><b>Probleme beim Start</b> (schwarzes Fenster, Start fehlgeschlagen)</summary>
 
-- **Startet die App nicht** („Start fehlgeschlagen“, „Der Start konnte nicht abgeschlossen werden“)? Das war ein bekannter Fehler der Version 0.1.2 und ist in 0.1.3 behoben, also zuerst auf 0.1.3 wechseln. Kommt es trotzdem vor: erst „Erneut versuchen“, dann die App ganz beenden und neu starten. Hilft das nicht, nutze die Web-App (Installation weiter unten, für Windows [README-WINDOWS.md](README-WINDOWS.md)); sie läuft unabhängig davon.
-- **Das Fenster bleibt schwarz** (kommt unter Windows gelegentlich vor)? Das Fenster **minimieren und wieder öffnen**, dann erscheint die Oberfläche sofort. Das ist auch in 0.1.3 noch ein bekannter Fehler, an einer Korrektur wird gearbeitet.
+- **Startet die App nicht** („Start fehlgeschlagen“, „Der Start konnte nicht abgeschlossen werden“)? Das war ein bekannter Fehler der Version 0.1.2 und ist seit 0.1.3 behoben, also zuerst auf die aktuelle Version wechseln. Kommt es trotzdem vor: erst „Erneut versuchen“, dann die App ganz beenden und neu starten. Hilft das nicht, nutze die Web-App (Installation weiter unten, für Windows [README-WINDOWS.md](README-WINDOWS.md)); sie läuft unabhängig davon.
+- **Das Fenster bleibt schwarz** (kommt unter Windows gelegentlich vor)? Das Fenster **minimieren und wieder öffnen**, dann erscheint die Oberfläche sofort. Das ist ein bekannter Fehler, an einer Korrektur wird gearbeitet.
 
 </details>
 

@@ -139,6 +139,24 @@ def page_start_d(c):
     footer(c, 5)
 
 
+def page_remote_d(c):
+    y = header(c, T("d7_01"), T("d7_02"))
+    y = h2(c, T("d7_03"), y)
+    y = para(c, T("d7_04"), M, y, W - 2 * M)
+    y -= 10
+    y = note(c, T("d7_06"), y, BLUE, T("d7_05"))
+    y -= 8
+    y = para(c, T("d7_07"), M, y, W - 2 * M, small)
+    y -= 16
+    y = h2(c, T("d7_08"), y)
+    y = para(c, T("d7_09"), M, y, W - 2 * M)
+    y -= 10
+    y = code(c, T("d7_10"), M, y, W - 2 * M)
+    y -= 10
+    note(c, T("d7_11"), y, GOLD, "MCP")
+    footer(c, 6)
+
+
 def page_daily_d(c):
     y = header(c, T("d6_01"), T("d6_02"))
     y = h2(c, T("d6_03"), y)
@@ -161,13 +179,13 @@ def page_daily_d(c):
     y = table(c, rows, y, [190, W - 2 * M - 190])
     y -= 8
     para(c, T("d6_36"), M, y, W - 2 * M, small)
-    footer(c, 6)
+    footer(c, 7)
 
 
 c = canvas.Canvas(str(OUT), pagesize=A4)
 c.setTitle(T("title"))
 c.setAuthor("Alphatester")
-for fn in (page_cover_d, page_overview_d, page_mac_d, page_win_linux_d, page_start_d, page_daily_d):
+for fn in (page_cover_d, page_overview_d, page_mac_d, page_win_linux_d, page_start_d, page_remote_d, page_daily_d):
     fn(c)
     c.showPage()
 c.save()
